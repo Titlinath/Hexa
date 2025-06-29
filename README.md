@@ -13,7 +13,7 @@ It's a comprehensive platform designed to **connect people with verified local s
 
 ## Preview of Our Homepage ➡️
 
-![TrustLocal](https://user-images.githubusercontent.com/your-screenshot-placeholder.png)
+![TrustLocal](image/Screenshot 2025-06-29 091930.png)
 
 *(Tip: Replace this link with your actual homepage screenshot once you upload it to GitHub.)*
 
