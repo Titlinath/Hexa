@@ -15,9 +15,6 @@ It's a comprehensive platform designed to **connect people with verified local s
 
 ![TrustLocal](image/Screenshot 2025-06-29 091930.png)
 
-*(Tip: Replace this link with your actual homepage screenshot once you upload it to GitHub.)*
-
----
 
 ## Demo Video of Our Project ➡️
 
