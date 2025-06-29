@@ -87,12 +87,16 @@ It's a comprehensive platform designed to **connect people with verified local s
 
 ## 👥 Our Team - Tam Grinder
 
-### Team ID: HexaFalls-TG01
+# Our team ID-H4B112:
+- **Titli Nath**
+  - [GitHub](https://github.com/Titlinath)
+  - [LinkedIn](https://www.linkedin.com/in/titli-nath-a976b7249/)
+  - ![Titli Nath](image/Titli.jpg)
 
-| ![Titli Nath](images/Titli.jpg) | ![Debanjali Bhattacharjee](images/Debanjali.jpg) |
-|---|---|
-| **Titli Nath**<br/>[GitHub](https://github.com/Titlinath) • [LinkedIn](https://www.linkedin.com/in/titli-nath-a976b7249/)<br/>✉️ titlinath5@gmail.com | **Debanjali Bhattacharjee**<br/>[GitHub](https://github.com/Debanjali1234) • [LinkedIn](https://www.linkedin.com/in/debanjali-bhattacharjee-9a7397269/)<br/>✉️ bhattacharyadebanjali@gmail.com |
-
+- **Debanjali Bhattacharya**
+  - [GitHub](https://github.com/Debanjali1234)
+  - [LinkedIn](https://www.linkedin.com/in/debanjali-bhattacharya-9a7397269/)
+  - ![Debanjali Bhattacharya](https://avatars.githubusercontent.com/u/126330453?v=4)
 ---
 
 ## ⏳ Project Timeline
@@ -116,4 +120,4 @@ Special thanks to the HexaFalls organizers and all the participants for their su
 ## 📂 Clone This Repo
 
 ```bash
-git clone https://github.com/your-username/trustlocal.git
+git clone https://github.com/Titlinath/trustlocal.git
