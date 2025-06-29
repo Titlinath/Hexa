@@ -87,8 +87,6 @@ It's a comprehensive platform designed to **connect people with verified local s
 
 ## 👥 Our Team - Tam Grinder
 
-## 👥 Our Team - Tam Grinder
-
 
 <table>
   <tr>
