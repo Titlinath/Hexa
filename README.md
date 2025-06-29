@@ -87,16 +87,27 @@ It's a comprehensive platform designed to **connect people with verified local s
 
 ## 👥 Our Team - Tam Grinder
 
-# Our team ID-H4B112:
-- **Titli Nath**
-  - [GitHub](https://github.com/Titlinath)
-  - [LinkedIn](https://www.linkedin.com/in/titli-nath-a976b7249/)
-  - ![Titli Nath](image/Titli.jpg)
+## 👥 Our Team - Tam Grinder
 
-- **Debanjali Bhattacharya**
-  - [GitHub](https://github.com/Debanjali1234)
-  - [LinkedIn](https://www.linkedin.com/in/debanjali-bhattacharya-9a7397269/)
-  - ![Debanjali Bhattacharya](https://avatars.githubusercontent.com/u/126330453?v=4)
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/yourusername/yourrepo/blob/main/images/Titli.jpg?raw=true" width="140" style="border-radius:50%"><br/>
+      <b>Titli Nath</b><br/>
+      <a href="https://github.com/Titlinath">GitHub</a> • <a href="https://www.linkedin.com/in/titli-nath-a976b7249/">LinkedIn</a><br/>
+      ✉️ titlinath5@gmail.com
+    </td>
+    <td align="center">
+      <img src="https://github.com/yourusername/yourrepo/blob/main/images/Debanjali.jpg?raw=true" width="140" style="border-radius:50%"><br/>
+      <b>Debanjali Bhattacharjee</b><br/>
+      <a href="https://github.com/Debanjali1234">GitHub</a> • <a href="https://www.linkedin.com/in/debanjali-bhattacharjee-9a7397269/">LinkedIn</a><br/>
+      ✉️ bhattacharyadebanjali@gmail.com
+    </td>
+  </tr>
+</table>
+
+
 ---
 
 ## ⏳ Project Timeline
