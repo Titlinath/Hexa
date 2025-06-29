@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard | TrustLocal</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      color: white;
+      font-family: 'Inter', sans-serif;
+    }
+    .glass {
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(14px) saturate(160%);
+      -webkit-backdrop-filter: blur(14px) saturate(160%);
+      border-radius: 0.75rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+<nav class="bg-gradient-to-r from-blue-700 via-purple-700 to-purple-800 shadow-md">
+  <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+    <div class="flex items-center space-x-2 text-2xl font-extrabold text-white">
+      <i class="bi bi-tools"></i>
+      <span>TrustLocal</span>
+    </div>
+    <!-- Buttons -->
+    <div class="flex gap-4">
+      <a href="index.html" class="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-1 rounded font-semibold transition">Home</a>
+      <a href="service.html" class="bg-cyan-500 hover:bg-cyan-600 text-white px-4 py-1 rounded font-semibold transition">Services</a>
+      <a href="#" class="bg-rose-500 hover:bg-rose-600 text-white px-4 py-1 rounded font-semibold transition">Logout</a>
+    </div>
+  </div>
+</nav>
+
+
+
+  <main class="flex flex-1 w-full max-w-7xl mx-auto px-4 py-8 gap-6">
+
+    <!-- Sidebar Profile -->
+    <aside class="w-full md:w-1/4 glass p-4 sticky top-8 h-fit">
+      <h2 class="text-xl font-bold mb-2">👤 Titli Nath</h2>
+      <p class="text-sm text-gray-300"><i class="bi bi-geo-alt"></i> Current: Kolkata</p>
+      <p class="text-sm text-gray-300"><i class="bi bi-geo"></i> Previous: Belgharia</p>
+      <p class="text-sm text-gray-300"><i class="bi bi-telephone"></i> +91-9876543210</p>
+      <p class="text-sm text-gray-300"><i class="bi bi-envelope"></i> titli@example.com</p>
+      <p class="text-sm text-gray-300"><i class="bi bi-calendar"></i> Member since: Jan 2024</p>
+      <button class="mt-4 w-full bg-emerald-600 hover:bg-emerald-700 py-2 rounded font-semibold transition">Edit Profile</button>
+    </aside>
+
+    <!-- Main Content -->
+    <section class="flex-1 flex flex-col gap-6">
+
+      <!-- Recent Searches -->
+      <div class="glass p-4">
+        <h3 class="text-2xl font-bold mb-4 text-emerald-400">🔍 Recent Searches</h3>
+        <div id="recommendations" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- Example Card -->
+          <div class="p-4 bg-white bg-opacity-5 rounded-lg flex flex-col justify-between">
+            <div>
+              <h4 class="font-semibold">Neha Gupta</h4>
+              <p class="text-sm text-gray-300">Electrician • Dum Dum</p>
+              <p class="text-sm text-gray-400">Expert in lighting and troubleshooting.</p>
+            </div>
+            <div class="flex justify-between items-center mt-2">
+              <span class="text-yellow-300">⭐ 4.9</span>
+              <a href="bookfin.html">
+                <button class="bg-emerald-500 hover:bg-emerald-600 px-3 py-1 rounded">Book</button>
+              </a>
+            </div>
+          </div>
+            <div class="p-4 bg-white bg-opacity-5 rounded-lg flex flex-col justify-between">
+                <div>
+                <h4 class="font-semibold">Rahul Singh</h4>
+                <p class="text-sm text-gray-300">Plumber • Salt Lake</p>
+                <p class="text-sm text-gray-400">Specializes in pipe fittings and leak repairs.</p>
+                </div>
+                <div class="flex justify-between items-center mt-2">
+                <span class="text-yellow-300">⭐ 4.8</span>
+                <a href="bookfin.html">
+                    <button class="bg-emerald-500 hover:bg-emerald-600 px-3 py-1 rounded">Book</button>
+                </a>
+                </div>
+        </div>
+      </div>
+
+      <!-- Past Orders -->
+      <div class="glass p-4">
+        <h3 class="text-2xl font-bold mb-4 text-purple-400">📝 Past Orders</h3>
+        <div id="bookings" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Example Booking -->
+          <div class="p-4 bg-white bg-opacity-5 rounded-lg flex flex-col justify-between">
+            <div>
+              <h4 class="font-semibold">Anjali Roy</h4>
+              <p class="text-sm text-gray-300">Housekeeping • Garia</p>
+              <p class="text-sm text-gray-400">Completed on 20/05/2025</p>
+            </div>
+            <div class="flex justify-between items-center mt-2">
+              <span class="text-yellow-300">⭐ 4.7</span>
+              <a href="bookfin.html">
+                <button class="bg-purple-600 hover:bg-purple-700 px-3 py-1 rounded">Book Again</button>
+              </a>
+            </div>
+          </div>
+            <div class="p-4 bg-white bg-opacity-5 rounded-lg flex flex-col justify-between">
+                <div>
+                <h4 class="font-semibold">Suresh Kumar</h4>
+                <p class="text-sm text-gray-300">Electrician • Howrah</p>
+                <p class="text-sm text-gray-400">Completed on 18/05/2025</p>
+                </div>
+                <div class="flex justify-between items-center mt-2">
+                <span class="text-yellow-300">⭐ 4.6</span>
+                <a href="bookfin.html">
+                    <button class="bg-purple-600 hover:bg-purple-700 px-3 py-1 rounded">Book Again</button>
+                </a>
+                </div>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <footer class="bg-[#0f172a] text-white py-4 mt-16">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col items-center justify-center gap-3">
+      <p class="text-sm text-gray-400 text-center">© 2025 TrustLocals</p>
+      <div class="flex justify-center space-x-4 mt-2">
+        <a href="#"><i class="bi bi-facebook hover:text-[#3B82F6] text-lg"></i></a>
+        <a href="#"><i class="bi bi-instagram hover:text-[#FB7185] text-lg"></i></a>
+        <a href="#"><i class="bi bi-twitter hover:text-[#3B82F6] text-lg"></i></a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

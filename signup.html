@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign Up | TrustLocal</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: linear-gradient(120deg, #1e1b4b, #312e81, #0f172a);
+    }
+    .glass {
+      backdrop-filter: blur(14px) saturate(150%);
+      -webkit-backdrop-filter: blur(14px) saturate(150%);
+      background-color: rgba(255, 255, 255, 0.15);
+      border-radius: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center min-h-screen px-4">
+
+  <div class="glass w-full max-w-lg p-8 text-white">
+    <h2 class="text-4xl font-extrabold text-center mb-8 drop-shadow">Create Your <span class="text-rose-400">TrustLocal</span> Account</h2>
+
+    <form id="signupForm" class="space-y-4">
+      <div>
+        <label for="name" class="block mb-1 text-sm font-semibold">👤 Full Name</label>
+        <input type="text" id="name" placeholder="John Doe" required
+               class="w-full px-4 py-2 rounded-md bg-white bg-opacity-20 border border-white focus:outline-none focus:ring-2 focus:ring-rose-400 placeholder-white">
+      </div>
+
+      <div>
+        <label for="email" class="block mb-1 text-sm font-semibold">📧 Email Address</label>
+        <input type="email" id="email" placeholder="you@example.com" required
+               class="w-full px-4 py-2 rounded-md bg-white bg-opacity-20 border border-white focus:outline-none focus:ring-2 focus:ring-blue-400 placeholder-white">
+      </div>
+
+      <div>
+        <label for="phone" class="block mb-1 text-sm font-semibold">📱 Phone Number</label>
+        <input type="tel" id="phone" placeholder="+91 9876543210" required
+               class="w-full px-4 py-2 rounded-md bg-white bg-opacity-20 border border-white focus:outline-none focus:ring-2 focus:ring-green-400 placeholder-white">
+      </div>
+
+      <div>
+        <label for="location" class="block mb-1 text-sm font-semibold">📍 Current Location</label>
+        <input type="text" id="location" placeholder="Kolkata, India" required
+               class="w-full px-4 py-2 rounded-md bg-white bg-opacity-20 border border-white focus:outline-none focus:ring-2 focus:ring-purple-400 placeholder-white">
+      </div>
+
+      <div>
+        <label for="password" class="block mb-1 text-sm font-semibold">🔒 Password</label>
+        <input type="password" id="password" placeholder="••••••••" required
+               class="w-full px-4 py-2 rounded-md bg-white bg-opacity-20 border border-white focus:outline-none focus:ring-2 focus:ring-pink-400 placeholder-white">
+      </div>
+
+      <div>
+        <label for="confirmPassword" class="block mb-1 text-sm font-semibold">🔒 Confirm Password</label>
+        <input type="password" id="confirmPassword" placeholder="••••••••" required
+               class="w-full px-4 py-2 rounded-md bg-white bg-opacity-20 border border-white focus:outline-none focus:ring-2 focus:ring-pink-400 placeholder-white">
+      </div>
+
+      <button type="submit"
+              class="w-full bg-gradient-to-r from-rose-400 to-rose-600 hover:from-rose-500 hover:to-rose-700 text-white font-bold py-2 rounded-lg transition duration-300 shadow-md">
+        Sign Up
+      </button>
+    </form>
+
+    <p class="text-center text-sm mt-6">
+      Already have an account?
+      <a href="login.html" class="text-rose-400 font-semibold hover:underline">Login</a>
+    </p>
+  </div>
+
+  <script>
+    document.getElementById("signupForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+      // Here, you can validate passwords match
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirmPassword").value;
+
+      if (password !== confirmPassword) {
+        alert("Passwords do not match!");
+        return;
+      }
+
+      // In production, send data to backend
+      // For now: redirect
+      window.location.href = "service.html";
+    });
+  </script>
+</body>
+</html>

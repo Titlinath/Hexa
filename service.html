@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Find Help | TrustLocal</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: linear-gradient(120deg, #4d46b4, #6e6ca5, #0f172a);
+    }
+    .glass {
+      backdrop-filter: blur(14px) saturate(150%);
+      -webkit-backdrop-filter: blur(14px) saturate(150%);
+      background-color: rgba(255, 255, 255, 0.05);
+      border-radius: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+  </style>
+</head>
+<body class="text-white min-h-screen flex flex-col">
+
+  <nav class="bg-[#0f172a] bg-opacity-90 shadow-lg sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+    <!-- Logo -->
+    <div class="flex items-center space-x-2 text-2xl font-extrabold text-white">
+      <i class="bi bi-tools"></i>
+      <span>TrustLocal</span>
+    </div>
+    <!-- Buttons -->
+    <div class="flex gap-3">
+      <a href="/" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md font-semibold transition">
+        Home
+      </a>
+      <a href="/about.html" class="bg-rose-500 hover:bg-rose-600 text-white px-4 py-2 rounded-md font-semibold transition">
+        About
+      </a>
+      <a href="/contact.html" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md font-semibold transition">
+        Contact
+      </a>
+      <a href="/user.html" class="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-2 rounded-md font-semibold transition flex items-center gap-2">
+        <i class="bi bi-person-circle"></i>
+        User
+      </a>
+    </div>
+  </div>
+</nav>
+
+
+
+  <section class="py-10 px-4">
+  <h2 class="text-2xl font-bold mb-6 text-center">Quick Access Categories</h2>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
+    <!-- Category Card Example -->
+    <div class="glass p-4 rounded-xl w-full">
+      <button type="button" class="category-btn w-full text-left text-lg font-semibold flex justify-between items-center">
+        🛠️ Plumbing
+        <span>▼</span>
+      </button>
+      <ul class="category-list hidden mt-2 space-y-1">
+        <li class="service-option px-3 py-2 rounded cursor-pointer hover:bg-purple-700 hover:text-white" data-service="Pipe Fixing">Pipe Fixing</li>
+        <li class="service-option px-3 py-2 rounded cursor-pointer hover:bg-purple-700 hover:text-white" data-service="Tap Leakage">Tap Leakage</li>
+        <li class="service-option px-3 py-2 rounded cursor-pointer hover:bg-purple-700 hover:text-white" data-service="Bathroom Fittings">Bathroom Fittings</li>
+      </ul>
+    </div>
+
+    <div class="glass p-4 rounded-xl w-full">
+      <button type="button" class="category-btn w-full text-left text-lg font-semibold flex justify-between items-center">
+        💡 Electrical
+        <span>▼</span>
+      </button>
+      <ul class="category-list hidden mt-2 space-y-1">
+        <li class="service-option px-3 py-2 rounded cursor-pointer hover:bg-purple-700 hover:text-white" data-service="Fan Installation">Fan Installation</li>
+        <li class="service-option px-3 py-2 rounded cursor-pointer hover:bg-purple-700 hover:text-white" data-service="Wiring">Wiring</li>
+        <li class="service-option px-3 py-2 rounded cursor-pointer hover:bg-purple-700 hover:text-white" data-service="Lighting Fixes">Lighting Fixes</li>
+      </ul>
+    </div>
+
+    <div class="glass p-4 rounded-xl w-full">
+      <button type="button" class="category-btn w-full text-left text-lg font-semibold flex justify-between items-center">
+        🧼 Cleaning
+        <span>▼</span>
+      </button>
+      <ul class="category-list hidden mt-2 space-y-1">
+        <li class="service-option px-3 py-2 rounded cursor-pointer hover:bg-purple-700 hover:text-white" data-service="Deep Cleaning">Deep Cleaning</li>
+        <li class="service-option px-3 py-2 rounded cursor-pointer hover:bg-purple-700 hover:text-white" data-service="Water Tank">Water Tank</li>
+        <li class="service-option px-3 py-2 rounded cursor-pointer hover:bg-purple-700 hover:text-white" data-service="Bathroom/Kitchen">Bathroom/Kitchen</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+
+
+  <section class="px-4 max-w-5xl mx-auto py-6">
+    <div class="glass p-4 rounded-lg">
+      <h3 class="text-2xl font-bold mb-6">Smart Filters</h3>
+      <form id="filter-form">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-lg">
+          <label class="flex items-center gap-3">
+            <input id="verified" name="filter" value="verified" type="checkbox" class="accent-green-500 transform scale-125">
+            Verified Professionals
+          </label>
+          <label class="flex items-center gap-3">
+            <input id="rating4" name="filter" value="4star" type="checkbox" class="accent-green-500 transform scale-125">
+            4+ Star Ratings
+          </label>
+          <label class="flex items-center gap-3">
+            <input id="available" name="filter" value="available" type="checkbox" class="accent-green-500 transform scale-125">
+            Available Now
+          </label>
+          <label class="flex items-center gap-3">
+            <input id="budget" name="filter" value="budget" type="checkbox" class="accent-green-500 transform scale-125">
+            Budget Friendly
+          </label>
+          <label class="flex items-center gap-3">
+            <input id="emergency" name="filter" value="emergency" type="checkbox" class="accent-green-500 transform scale-125">
+            Emergency Support
+          </label>
+          <label class="flex items-center gap-3">
+            <input id="nearby" name="filter" value="nearby" type="checkbox" class="accent-green-500 transform scale-125">
+            Nearby (within 5 km)
+          </label>
+          <label class="flex items-center gap-3">
+            <input id="female" name="filter" value="female" type="checkbox" class="accent-green-500 transform scale-125">
+            Female Service Provider
+          </label>
+          <label class="flex items-center gap-3">
+            <input id="eco" name="filter" value="eco" type="checkbox" class="accent-green-500 transform scale-125">
+            Eco-Friendly Tools
+          </label>
+          <label class="flex items-center gap-3">
+            <input id="multi" name="filter" value="multi" type="checkbox" class="accent-green-500 transform scale-125">
+            Multilingual Support
+          </label>
+        </div>
+        <div class="text-center mt-6">
+          <button type="submit" class="bg-purple-900 hover:bg-purple-800 text-white px-6 py-2 rounded-md font-semibold">
+            Apply Filters
+          </button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+ <section class="px-4 py-10 w-full">
+  <h3 class="text-2xl font-bold mb-6 text-center">Top Recommendations</h3>
+  
+  <!-- Loading indicator (optional) -->
+  <div id="loading" class="hidden text-center mb-4">
+    <div class="inline-flex items-center space-x-2">
+      <svg class="animate-spin h-5 w-5 text-purple-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+      </svg>
+      <span>Loading recommendations...</span>
+    </div>
+  </div>
+
+  <div id="recommendations" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- Recommendations will be injected here by service.js -->
+  </div>
+</section>
+
+<script>
+const filterForm = document.getElementById("filter-form");
+const loading = document.getElementById("loading");
+const recommendations = document.getElementById("recommendations");
+
+// Helper mapping: One helper per filter per location
+const helpersData = {
+  kolkata: {
+    verified: { name: "Arjun Das", rating: 5, verified: true },
+    "4star": { name: "Priya Sen", rating: 4, verified: true },
+    available: { name: "Suman Roy", rating: 3, verified: false },
+    budget: { name: "Mitali Ghosh", rating: 3, verified: true },
+    emergency: { name: "Rajeev Paul", rating: 5, verified: true },
+    nearby: { name: "Kiran Dutta", rating: 4, verified: false },
+    female: { name: "Sneha Bose", rating: 5, verified: true },
+    eco: { name: "Nikhil Mondal", rating: 3, verified: false },
+    multi: { name: "Amrita Saha", rating: 4, verified: true }
+  },
+  bangalore: {
+    verified: { name: "Rahul Nair", rating: 5, verified: true },
+    "4star": { name: "Sunita Reddy", rating: 4, verified: true },
+    available: { name: "Amit Kumar", rating: 3, verified: false },
+    budget: { name: "Deepa Rao", rating: 3, verified: true },
+    emergency: { name: "Suresh Babu", rating: 5, verified: true },
+    nearby: { name: "Vijay Reddy", rating: 4, verified: false },
+    female: { name: "Nisha Pillai", rating: 5, verified: true },
+    eco: { name: "Girish Patil", rating: 3, verified: false },
+    multi: { name: "Meena Iyer", rating: 4, verified: true }
+  }
+};
+
+filterForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  recommendations.innerHTML = "";
+  loading.classList.remove("hidden");
+
+  const formData = new FormData(filterForm);
+  const selectedFilters = formData.getAll("filter");
+
+  setTimeout(() => {
+    loading.classList.add("hidden");
+
+    let output = "";
+
+    // For each location
+    Object.keys(helpersData).forEach(location => {
+      let helpersForLocation = selectedFilters
+        .map(filter => helpersData[location][filter])
+        .filter(Boolean);
+
+      if (helpersForLocation.length > 0) {
+        output += `
+          <div class="col-span-full">
+            <h4 class="text-xl font-semibold mb-3 text-purple-300">${location.charAt(0).toUpperCase() + location.slice(1)}</h4>
+          </div>
+          ${helpersForLocation.map(helper => `
+            <div class="bg-[#1f2937] text-gray-200 p-4 rounded-lg shadow">
+              <h5 class="text-lg font-semibold mb-1">${helper.name}</h5>
+              <p>⭐ Rating: ${helper.rating} / 5</p>
+              <p class="text-sm mt-1">${helper.verified ? "✅ Verified" : "❌ Not Verified"}</p>
+            </div>
+          `).join("")}
+        `;
+      } else {
+        output += `
+          <div class="col-span-full text-gray-400 text-center">
+            No matching helpers in ${location.charAt(0).toUpperCase() + location.slice(1)}.
+          </div>
+        `;
+      }
+    });
+
+    recommendations.innerHTML = output || `
+      <div class="col-span-full text-gray-400 text-center">
+        No helpers matched your filters.
+      </div>
+    `;
+  }, 800);
+});
+
+// Toggle category lists
+document.querySelectorAll('.category-btn').forEach((button) => {
+  button.addEventListener('click', () => {
+    const list = button.nextElementSibling;
+
+    // Optionally collapse others
+    document.querySelectorAll('.category-list').forEach((ul) => {
+      if (ul !== list) {
+        ul.classList.add('hidden');
+      }
+    });
+
+    // Toggle this one
+    list.classList.toggle('hidden');
+  });
+});
+
+// Select service option
+document.querySelectorAll('.service-option').forEach((option) => {
+  option.addEventListener('click', () => {
+    // Remove highlight from all
+    document.querySelectorAll('.service-option').forEach((o) => {
+      o.classList.remove('bg-purple-700', 'text-white');
+    });
+
+    // Highlight selected
+    option.classList.add('bg-purple-700', 'text-white');
+
+    // Optional: log
+    console.log("Selected:", option.dataset.service);
+  });
+});
+
+</script>
+
+
+  <footer class="bg-[#0f172a] text-white py-4 mt-16">
+    <div class="max-w-6xl mx-auto px-4 flex flex-col items-center justify-center gap-3">
+      <p class="text-sm text-gray-400 text-center">© 2025 TrustLocals</p>
+      <div class="flex justify-center space-x-4 mt-2">
+        <a href="#"><i class="bi bi-facebook hover:text-[#3B82F6] text-lg"></i></a>
+        <a href="#"><i class="bi bi-instagram hover:text-[#FB7185] text-lg"></i></a>
+        <a href="#"><i class="bi bi-twitter hover:text-[#3B82F6] text-lg"></i></a>
+      </div>
+    </div>
+  </footer>
+  <script src="service.js"></script>
+</body>
+</html>

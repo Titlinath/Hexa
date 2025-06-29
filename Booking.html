@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trust Local - Booking Updates</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        /* General body styles for consistent background */
+        body {
+            font-family: "Inter", sans-serif;
+            background: linear-gradient(to bottom right, #f0f9ff, #ecfeff); /* Matches the front page body background */
+            @apply text-gray-900;
+        }
+
+        /* Message box styling */
+        #messageBox {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            text-align: center;
+            border: 1px solid #cbd5e1;
+            min-width: 300px; /* Ensure it's wide enough for rating */
+        }
+        #messageBox .msg-box-actions {
+            @apply flex justify-center mt-6 space-x-4;
+        }
+        #messageBox .msg-box-actions button {
+            @apply px-8 py-3 bg-blue-600 text-white font-bold rounded-full shadow-lg hover:bg-blue-700 transition duration-300 transform hover:scale-105;
+        }
+        #messageBox .msg-box-actions .cancel-btn {
+            @apply bg-gray-400 hover:bg-gray-500;
+        }
+        #ratingStars span {
+            font-size: 2.5rem; /* Large stars */
+            cursor: pointer;
+            color: #ccc; /* Default grey */
+            transition: color 0.2s;
+        }
+        #ratingStars span.active {
+            color: #FFD700; /* Gold */
+        }
+
+
+        /* Custom Animations (for consistency with other pages) */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes zoomIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .animate-fade-in-down { animation: fadeInDown 0.8s ease-out forwards; }
+        .animate-fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
+        .animate-zoom-in { animation: zoomIn 0.6s ease-out forwards; }
+
+        /* Booking Card Styles */
+        .booking-card {
+            @apply bg-white p-6 rounded-xl shadow-lg border border-gray-200 mb-6;
+            transition: all 0.3s ease-in-out;
+        }
+        .booking-card:hover {
+            @apply shadow-xl transform scale-105;
+        }
+
+        /* Loading Spinner Styles */
+        .loader {
+            border: 4px solid #f3f3f3; /* Light grey */
+            border-top: 4px solid #3B82F6; /* Blue */
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Message Box Structure (replaces alert/confirm for user feedback) -->
+    <div id="messageBox" class="flex flex-col items-center">
+        <p id="messageBoxText" class="text-xl font-medium text-gray-800 mb-4"></p>
+        <div id="ratingInput" class="hidden">
+            <p class="text-lg text-gray-700 mb-4">How would you rate this service?</p>
+            <div id="ratingStars" class="flex justify-center mb-6">
+                <span data-value="1" class="fas fa-star"></span>
+                <span data-value="2" class="fas fa-star"></span>
+                <span data-value="3" class="fas fa-star"></span>
+                <span data-value="4" class="fas fa-star"></span>
+                <span data-value="5" class="fas fa-star"></span>
+            </div>
+            <input type="hidden" id="selectedRating" value="0">
+        </div>
+        <div class="msg-box-actions">
+            <button id="messageBoxConfirm" class="hidden">Confirm</button>
+            <button id="messageBoxClose">OK</button>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="flex justify-between items-center p-6 bg-white/90 shadow-lg backdrop-blur-md fixed w-full top-0 z-50">
+        <div class="flex items-center space-x-2 text-2xl font-bold text-[#3B82F6]">
+            <i class="bi bi-tools"></i>
+            <span>TrustLocal</span>
+        </div>
+        <div class="space-x-4">
+            <!-- Example navigation links, link to your actual pages -->
+            <a href="index.html" class="text-gray-700 hover:text-[#3B82F6] font-semibold">Home</a>
+            <a href="about.html" class="text-gray-700 hover:text-[#3B82F6] font-semibold">About</a>
+            <a href="service.html" class="text-gray-700 hover:text-[#3B82F6] font-semibold">Services</a>
+            <a href="#" class="bg-gradient-to-r from-[#3B82F6] to-[#A78BFA] text-white px-5 py-2 rounded-full font-semibold hover:opacity-90">My Bookings</a>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-4 py-8 pt-28"> <!-- Added pt-28 to account for fixed navbar -->
+        <h1 class="text-4xl md:text-5xl font-bold text-center text-gray-800 mb-12 animate-fade-in-down">Your Booking Updates</h1>
+
+        <!-- Filter, Sort, and Search Controls -->
+        <div class="bg-white p-6 rounded-xl shadow-lg mb-8 flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0 md:space-x-4">
+            <input type="text" id="searchBookings" placeholder="Search by service or professional..."
+                   class="w-full md:w-1/3 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#A78BFA] transition"
+                   onkeyup="filterAndSortBookings()">
+
+            <select id="filterType" class="w-full md:w-1/4 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3B82F6] transition"
+                    onchange="filterAndSortBookings()">
+                <option value="all">All Service Types</option>
+                <option value="Room Cleaning">Room Cleaning</option>
+                <option value="Plumbing Repair">Plumbing Repair</option>
+                <option value="Electrical Check-up">Electrical Check-up</option>
+                <option value="Furniture Assembly">Furniture Assembly</option>
+                <option value="Washroom Setup">Washroom Setup</option>
+            </select>
+
+            <select id="sortDate" class="w-full md:w-1/4 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3B82F6] transition"
+                    onchange="filterAndSortBookings()">
+                <option value="newest">Sort by Date (Newest First)</option>
+                <option value="oldest">Sort by Date (Oldest First)</option>
+            </select>
+        </div>
+
+        <!-- Loading Indicator -->
+        <div id="loadingIndicator" class="flex justify-center items-center py-10 hidden">
+            <div class="loader mr-4"></div>
+            <p class="text-gray-600 text-lg">Loading bookings...</p>
+        </div>
+
+        <section class="mb-16">
+            <h2 class="text-3xl font-bold text-gray-700 mb-8 flex items-center justify-center">
+                <i class="far fa-calendar-check text-blue-500 mr-4"></i> Upcoming Bookings
+            </h2>
+            <div id="upcomingBookings" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Upcoming booking cards will be injected here by JavaScript -->
+            </div>
+            <p id="noUpcomingBookings" class="text-center text-gray-500 hidden mt-8">No upcoming bookings found matching your criteria.</p>
+        </section>
+
+        <section>
+            <h2 class="text-3xl font-bold text-gray-700 mb-8 flex items-center justify-center">
+                <i class="far fa-calendar-alt text-purple-500 mr-4"></i> Past Bookings
+            </h2>
+            <div id="pastBookings" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Past booking cards will be injected here by JavaScript -->
+            </div>
+            <p id="noPastBookings" class="text-center text-gray-500 hidden mt-8">No past bookings found matching your criteria.</p>
+        </section>
+    </main>
+
+    <!-- Footer (matches the front page footer) -->
+    <footer class="bg-white text-center py-6 shadow-inner mt-12">
+        <p class="text-gray-500 text-sm">© 2025 TrustLocal. All rights reserved.</p>
+        <div class="mt-2 space-x-4 text-lg text-gray-400">
+            <a href="#"><i class="bi bi-facebook hover:text-[#3B82F6]"></i></a>
+            <a href="#"><i class="bi bi-instagram hover:text-[#FB7185]"></i></a>
+            <a href="#"><a href="#"><i class="bi bi-twitter hover:text-[#3B82F6]"></i></a>
+        </div>
+    </footer>
+
+    <script>
+        // --- Message Box Logic (replaces alert/confirm) ---
+        const messageBox = document.getElementById('messageBox');
+        const messageBoxText = document.getElementById('messageBoxText');
+        const messageBoxClose = document.getElementById('messageBoxClose');
+        const messageBoxConfirm = document.getElementById('messageBoxConfirm');
+        const ratingInput = document.getElementById('ratingInput');
+        const ratingStars = document.getElementById('ratingStars');
+        const selectedRatingInput = document.getElementById('selectedRating');
+
+        let currentBookingIdForRating = null; // To store the ID of the booking being rated
+
+        /**
+         * Displays a custom message box with a given message.
+         * Can also be configured for rating prompts.
+         * @param {string} message The message to display.
+         * @param {boolean} isRatingPrompt If true, shows rating input.
+         * @param {string} bookingId The ID of the booking to associate with the rating.
+         */
+        function showMessage(message, isRatingPrompt = false, bookingId = null) {
+            messageBoxText.textContent = message;
+            ratingInput.classList.add('hidden'); // Hide rating input by default
+            messageBoxConfirm.classList.add('hidden'); // Hide confirm button by default
+            messageBoxClose.textContent = 'OK'; // Reset close button text
+
+            if (isRatingPrompt) {
+                ratingInput.classList.remove('hidden');
+                messageBoxConfirm.classList.remove('hidden');
+                messageBoxConfirm.textContent = 'Submit Rating';
+                messageBoxClose.textContent = 'Cancel'; // Change cancel text
+                currentBookingIdForRating = bookingId; // Store booking ID
+                selectedRatingInput.value = '0'; // Reset rating
+                updateStarDisplay(0); // Reset star display
+            }
+
+            messageBox.style.display = 'flex';
+        }
+
+        // Event listener to close the message box
+        messageBoxClose.addEventListener('click', () => {
+            messageBox.style.display = 'none';
+        });
+
+        // --- Rating Functionality ---
+        ratingStars.addEventListener('mouseover', (event) => {
+            if (event.target.classList.contains('fa-star')) {
+                const value = parseInt(event.target.dataset.value);
+                updateStarDisplay(value);
+            }
+        });
+
+        ratingStars.addEventListener('click', (event) => {
+            if (event.target.classList.contains('fa-star')) {
+                const value = parseInt(event.target.dataset.value);
+                selectedRatingInput.value = value;
+                updateStarDisplay(value); // Keep stars highlighted after click
+            }
+        });
+
+        ratingStars.addEventListener('mouseout', () => {
+            // Revert to selected rating when mouse leaves stars
+            updateStarDisplay(parseInt(selectedRatingInput.value));
+        });
+
+        function updateStarDisplay(rating) {
+            Array.from(ratingStars.children).forEach(star => {
+                const starValue = parseInt(star.dataset.value);
+                if (starValue <= rating) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+        }
+
+        messageBoxConfirm.addEventListener('click', () => {
+            if (currentBookingIdForRating && ratingInput.classList.contains('hidden') === false) { // Only proceed if it's a rating prompt
+                const rating = parseInt(selectedRatingInput.value);
+                if (rating === 0) {
+                    showMessage('Please select a star rating before submitting.', false);
+                    return;
+                }
+                rateBooking(currentBookingIdForRating, rating);
+                messageBox.style.display = 'none'; // Close message box
+                currentBookingIdForRating = null; // Clear the stored ID
+            } else {
+                 // Default confirm action if not a rating prompt
+                messageBox.style.display = 'none';
+            }
+        });
+
+        // --- Booking Data (Placeholder - In a real app, this would come from a backend API) ---
+        // Added parseable dates for sorting, and 'rating' property
+        const allBookings = [
+            // Upcoming
+            { id: 'UP-001', type: 'Room Cleaning', date: 'July 5, 2025', dateObj: new Date('2025-07-05'), time: '10:00 AM - 11:00 AM', professional: 'Priya Sharma', status: 'Confirmed', category: 'upcoming', rating: null },
+            { id: 'UP-002', type: 'Plumbing Repair', date: 'July 7, 2025', dateObj: new Date('2025-07-07'), time: '02:00 PM - 03:00 PM', professional: 'Rajesh Kumar', status: 'Pending Confirmation', category: 'upcoming', rating: null },
+            { id: 'UP-003', type: 'Electrical Check-up', date: 'July 10, 2025', dateObj: new Date('2025-07-10'), time: '09:00 AM - 10:00 AM', professional: 'Anil Singh', status: 'Confirmed', category: 'upcoming', rating: null },
+            // Past
+            { id: 'PA-001', type: 'Electrical Check-up', date: 'June 20, 2025', dateObj: new Date('2025-06-20'), time: '09:00 AM - 10:00 AM', professional: 'Anil Singh', status: 'Completed', category: 'past', rating: null },
+            { id: 'PA-002', type: 'Furniture Assembly', date: 'June 15, 2025', dateObj: new Date('2025-06-15'), time: '01:00 PM - 02:30 PM', professional: 'Ganesh Rao', status: 'Completed', category: 'past', rating: 4 }, // Example with existing rating
+            { id: 'PA-003', type: 'Washroom Setup', date: 'June 10, 2025', dateObj: new Date('2025-06-10'), time: '11:00 AM - 12:00 PM', professional: 'N/A', status: 'Cancelled', category: 'past', rating: null },
+            { id: 'PA-004', type: 'Room Cleaning', date: 'May 25, 2025', dateObj: new Date('2025-05-25'), time: '09:00 AM - 11:00 AM', professional: 'Shweta Gupta', status: 'Completed', category: 'past', rating: null },
+            { id: 'PA-005', type: 'Plumbing Repair', date: 'May 10, 2025', dateObj: new Date('2025-05-10'), time: '03:00 PM - 04:00 PM', professional: 'Deepak Patel', status: 'Completed', category: 'past', rating: 5 }, // Example with existing rating
+        ];
+
+        // Get container and control elements
+        const upcomingBookingsContainer = document.getElementById('upcomingBookings');
+        const pastBookingsContainer = document.getElementById('pastBookings');
+        const noUpcomingBookingsMessage = document.getElementById('noUpcomingBookings');
+        const noPastBookingsMessage = document.getElementById('noPastBookings');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+
+        const searchBookingsInput = document.getElementById('searchBookings');
+        const filterTypeSelect = document.getElementById('filterType');
+        const sortDateSelect = document.getElementById('sortDate');
+
+
+        /**
+         * Shows the loading indicator.
+         */
+        function showLoading() {
+            loadingIndicator.classList.remove('hidden');
+            upcomingBookingsContainer.classList.add('hidden'); // Hide content while loading
+            pastBookingsContainer.classList.add('hidden');
+            noUpcomingBookingsMessage.classList.add('hidden');
+            noPastBookingsMessage.classList.add('hidden');
+        }
+
+        /**
+         * Hides the loading indicator.
+         */
+        function hideLoading() {
+            loadingIndicator.classList.add('hidden');
+            upcomingBookingsContainer.classList.remove('hidden');
+            pastBookingsContainer.classList.remove('hidden');
+        }
+
+        /**
+         * Renders booking cards into the specified container.
+         * @param {Array} bookings - Array of booking objects.
+         * @param {HTMLElement} container - The DOM element to append cards to.
+         * @param {HTMLElement} noBookingsMessageElement - The element to show if no bookings.
+         */
+        function renderBookings(bookings, container, noBookingsMessageElement) {
+            container.innerHTML = ''; // Clear previous content
+            if (bookings.length === 0) {
+                noBookingsMessageElement.classList.remove('hidden');
+                container.classList.add('hidden'); // Hide the grid if no bookings
+                return;
+            } else {
+                noBookingsMessageElement.classList.add('hidden');
+                container.classList.remove('hidden'); // Show the grid if bookings exist
+            }
+
+            bookings.forEach(booking => {
+                let statusColorClass = 'text-gray-600';
+                let buttonHtml = ''; // Initialize button HTML
+                let ratingDisplayHtml = ''; // Initialize rating display
+
+                // Display existing rating if available for past bookings
+                if (booking.category === 'past' && booking.status === 'Completed' && booking.rating !== null) {
+                    ratingDisplayHtml = `
+                        <div class="mt-3 text-yellow-500 text-lg">
+                            ${'<i class="fas fa-star"></i>'.repeat(booking.rating)}
+                            ${'<i class="far fa-star"></i>'.repeat(5 - booking.rating)}
+                            <span class="text-gray-600 text-sm ml-2">(${booking.rating}/5 Stars)</span>
+                        </div>
+                    `;
+                }
+
+
+                if (booking.category === 'upcoming') {
+                    if (booking.status === 'Confirmed') {
+                        statusColorClass = 'text-green-600';
+                        buttonHtml = `
+                            <button onclick="showMessage('You clicked to manage Booking ID: ${booking.id}')"
+                                class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-200 text-sm">
+                                Manage Booking
+                            </button>
+                            <button onclick="confirmCancel('${booking.id}')"
+                                class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-200 ml-2 text-sm">
+                                Cancel
+                            </button>
+                        `;
+                    } else if (booking.status === 'Pending Confirmation') {
+                        statusColorClass = 'text-yellow-600';
+                        buttonHtml = `
+                            <button onclick="showMessage('You clicked to manage Booking ID: ${booking.id}')"
+                                class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition duration-200 text-sm">
+                                View Status
+                            </button>
+                            <button onclick="confirmCancel('${booking.id}')"
+                                class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-200 ml-2 text-sm">
+                                Cancel
+                            </button>
+                        `;
+                    }
+                } else { // Past bookings
+                    if (booking.status === 'Completed') {
+                        statusColorClass = 'text-gray-600';
+                        // Only show 'Rate Service' if not already rated
+                        if (booking.rating === null) {
+                            buttonHtml = `
+                                <button onclick="showMessage('You clicked to view details for Booking ID: ${booking.id}')"
+                                    class="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition duration-200 text-sm">
+                                    View Details
+                                </button>
+                                <button onclick="showMessage('Please rate the service for Booking ID: ${booking.id}', true, '${booking.id}')"
+                                    class="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition duration-200 ml-2 text-sm">
+                                    Rate Service
+                                </button>
+                                <button onclick="bookAgain('${booking.type}')"
+                                    class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition duration-200 ml-2 text-sm">
+                                    Book Again
+                                </button>
+                            `;
+                        } else {
+                            buttonHtml = `
+                                <button onclick="showMessage('You clicked to view details for Booking ID: ${booking.id}')"
+                                    class="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition duration-200 text-sm">
+                                    View Details
+                                </button>
+                                <button class="bg-gray-400 text-white px-4 py-2 rounded-lg cursor-not-allowed ml-2 text-sm" disabled>
+                                    Rated (${booking.rating}/5)
+                                </button>
+                                <button onclick="bookAgain('${booking.type}')"
+                                    class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition duration-200 ml-2 text-sm">
+                                    Book Again
+                                </button>
+                            `;
+                        }
+                    } else if (booking.status === 'Cancelled') {
+                        statusColorClass = 'text-red-600';
+                        buttonHtml = `
+                            <button onclick="showMessage('You clicked to view details for Booking ID: ${booking.id}')"
+                                class="bg-gray-400 text-white px-4 py-2 rounded-lg cursor-not-allowed text-sm" disabled>
+                                View Details
+                            </button>
+                            <button onclick="bookAgain('${booking.type}')"
+                                class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition duration-200 ml-2 text-sm">
+                                Book Again
+                            </button>
+                        `;
+                    }
+                }
+
+                const bookingCard = `
+                    <div class="booking-card ${booking.category === 'upcoming' ? 'border-blue-400' : (booking.status === 'Cancelled' ? 'border-red-400' : 'border-purple-400')}">
+                        <h3 class="text-xl font-semibold mb-2 ${booking.category === 'upcoming' ? 'text-blue-700' : (booking.status === 'Cancelled' ? 'text-red-700' : 'text-purple-700')}">${booking.type}</h3>
+                        <p class="text-gray-600 mb-1"><strong>Date:</strong> ${booking.date}</p>
+                        <p class="text-gray-600 mb-1"><strong>Time:</strong> ${booking.time}</p>
+                        <p class="text-gray-600 mb-3"><strong>Professional:</strong> ${booking.professional}</p>
+                        <p class="text-gray-600 mb-4"><strong>Status:</strong> <span class="font-bold ${statusColorClass}">${booking.status}</span></p>
+                        ${ratingDisplayHtml}
+                        <div class="flex flex-wrap gap-2 mt-4">
+                            ${buttonHtml}
+                        </div>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', bookingCard);
+            });
+        }
+
+        /**
+         * Filters and sorts the bookings based on current selections and search query.
+         */
+        function filterAndSortBookings() {
+            showLoading(); // Show loading indicator
+
+            setTimeout(() => { // Simulate API call delay
+                let filteredBookings = [...allBookings]; // Start with a fresh copy
+
+                const searchTerm = searchBookingsInput.value.toLowerCase().trim();
+                const filterType = filterTypeSelect.value;
+                const sortOrder = sortDateSelect.value;
+
+                // Apply search filter
+                if (searchTerm) {
+                    filteredBookings = filteredBookings.filter(booking =>
+                        booking.type.toLowerCase().includes(searchTerm) ||
+                        booking.professional.toLowerCase().includes(searchTerm)
+                    );
+                }
+
+                // Apply type filter
+                if (filterType !== 'all') {
+                    filteredBookings = filteredBookings.filter(booking => booking.type === filterType);
+                }
+
+                // Apply sorting
+                filteredBookings.sort((a, b) => {
+                    if (sortOrder === 'newest') {
+                        return b.dateObj.getTime() - a.dateObj.getTime();
+                    } else { // 'oldest'
+                        return a.dateObj.getTime() - b.dateObj.getTime();
+                    }
+                });
+
+                // Separate into upcoming and past after filtering and sorting
+                const upcomingFiltered = filteredBookings.filter(b => b.category === 'upcoming');
+                const pastFiltered = filteredBookings.filter(b => b.category === 'past');
+
+                renderBookings(upcomingFiltered, upcomingBookingsContainer, noUpcomingBookingsMessage);
+                renderBookings(pastFiltered, pastBookingsContainer, noPastBookingsMessage);
+
+                hideLoading(); // Hide loading indicator
+            }, 500); // 0.5 second delay
+        }
+
+        /**
+         * Handles the cancellation of a booking.
+         * @param {string} bookingId The ID of the booking to cancel.
+         */
+        function confirmCancel(bookingId) {
+            showMessage(`Are you sure you want to cancel Booking ID: ${bookingId}?`, false);
+            messageBoxConfirm.classList.remove('hidden');
+            messageBoxConfirm.textContent = 'Confirm Cancel';
+            messageBoxConfirm.onclick = () => cancelBooking(bookingId);
+            messageBoxClose.textContent = 'No, Keep It'; // Adjust button text
+        }
+
+        function cancelBooking(bookingId) {
+            const bookingIndex = allBookings.findIndex(b => b.id === bookingId);
+            if (bookingIndex > -1) {
+                allBookings[bookingIndex].status = 'Cancelled';
+                allBookings[bookingIndex].category = 'past'; // Move to past bookings
+                allBookings[bookingIndex].professional = 'N/A'; // Clear professional for cancelled
+                // In a real app, you'd also send this update to your backend.
+                showMessage(`Booking ID: ${bookingId} has been successfully cancelled.`, false);
+                filterAndSortBookings(); // Re-render the lists
+            } else {
+                showMessage(`Error: Booking ID ${bookingId} not found.`, false);
+            }
+            messageBox.style.display = 'none'; // Close message box
+            messageBoxConfirm.onclick = null; // Clear click handler
+        }
+
+        /**
+         * Handles rating a past booking.
+         * @param {string} bookingId The ID of the booking to rate.
+         * @param {number} rating The star rating (1-5).
+         */
+        function rateBooking(bookingId, rating) {
+            const bookingIndex = allBookings.findIndex(b => b.id === bookingId);
+            if (bookingIndex > -1) {
+                allBookings[bookingIndex].rating = rating;
+                // In a real app, you'd send this rating to your backend.
+                showMessage(`Thank you for rating Booking ID: ${bookingId} with ${rating} stars!`, false);
+                filterAndSortBookings(); // Re-render to show rating
+            } else {
+                showMessage(`Error: Booking ID ${bookingId} not found for rating.`, false);
+            }
+        }
+
+        /**
+         * Simulates booking a service again.
+         * In a real application, this would redirect to a booking form with the service pre-selected.
+         * @param {string} serviceType The type of service to book again.
+         */
+        function bookAgain(serviceType) {
+            showMessage(`You've chosen to book "${serviceType}" again! Redirecting to booking page...`, false);
+            // In a real application, you might do something like:
+            // window.location.href = `booking-form.html?service=${encodeURIComponent(serviceType)}`;
+        }
+
+
+        // Initial render on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            filterAndSortBookings(); // Call filtering on load to populate with initial data
+        });
+    </script>
+</body>
+</html>
